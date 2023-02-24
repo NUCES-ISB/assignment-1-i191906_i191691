@@ -103,15 +103,15 @@ class Chatbot():
         df["similarity"] = df.embeddings.apply(lambda x: cosine_similarity(x, query_embedding))
 
         results = df.sort_values("similarity", ascending=False, ignore_index=True)
-        # make a dictionary of the the first three results with the 
-        # page number as the key and 
-        # the text as the value. 
+        # make a dictionary of the the first three results with the \ 
+        # page number as the key and \
+        # the text as the value. \
         # The page number is a column in the dataframe.
         results = results.head(n)
         global sources
         sources = []
         for i in range(n):
-            # append the page number and
+            # append the page number and \
             # the text as a dict to the sources list
             sources.append({'Page '+str(results.iloc[i]['page']): results.iloc[i]['text'][:150]+'...'})
         print(sources)
