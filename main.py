@@ -78,22 +78,22 @@ class Chatbot():
             if len(row['text']) < 30:
                 continue
             filtered_pdf.append(row)
-        df = pd.DataFrame(filtered_pdf)
+        data_frame = pd.DataFrame(filtered_pdf)
         # print(df.shape)
         # remove elements with identical df[text] and df[page] values
-        df = df.drop_duplicates(subset=['text', 'page'], keep='first')
-        df['length'] = df['text'].apply(lambda x: len(x))
+        data_frame = data_frame.drop_duplicates(subset=['text', 'page'], keep='first')
+        data_frame['length'] = data_frame['text'].apply(lambda x: len(x))
         print('Done creating dataframe')
-        return df
+        return data_frame
 
-    def embeddings(self, df):
+    def embeddings(self, data_frame):
         print('Calculating embeddings')
         openai.api_key = os.getenv('OPENAI_API_KEY')
         embedding_model = "text-embedding-ada-002"
         embeddings = df.text.apply([lambda x: get_embedding(x, engine=embedding_model)])
-        df["embeddings"] = embeddings
+        data_frame["embeddings"] = embeddings
         print('Done calculating embeddings')
-        return df
+        return data_frame
 
     def search(self, df, query, n=3, pprint=True):
         query_embedding = get_embedding(
