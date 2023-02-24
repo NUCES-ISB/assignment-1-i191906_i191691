@@ -156,7 +156,7 @@ class Chatbot():
         This is to create promp.
         """
 
-        result = self.search(data_frame, user_input, n=3)
+        result = self.search(data_frame, user_input, number=3)
         print(result)
         prompt = """You are a large language model whose expertise is reading and summarizing scientific papers.
         You are given a query and a series of text embeddings from a paper in order of their cosine similarity to the query.
