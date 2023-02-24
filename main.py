@@ -109,7 +109,7 @@ class Chatbot():
         print('Done calculating embeddings')
         return data_frame
 
-    def search(self, data_frame, query, number=3) #pprint=True):
+    def search(self, data_frame, query, number=3): #pprint=True):
         """
         This is to search query.
         """
