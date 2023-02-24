@@ -129,12 +129,14 @@ class Chatbot():
         prompt = """You are a large language model whose expertise is reading and summarizing scientific papers.
         You are given a query and a series of text embeddings from a paper in order of their cosine similarity to the query.
         You must take the given embeddings and return a very detailed summary of the paper that answers the query.
-            Given the question: """+ user_input + """
-            and the following embeddings as data:
-            1.""" + str(result.iloc[0]['text']) + """
-            2.""" + str(result.iloc[1]['text']) + """
-            3.""" + str(result.iloc[2]['text']) + """
-            Return a detailed answer based on the paper:"""
+
+        Given the question: {}
+        and the following embeddings as data:
+        1. {}
+        2. {}
+        3. {}
+
+        Return a detailed answer based on the paper:""".format(user_input, str(result.iloc[0]['text']), str(result.iloc[1]['text']), str(result.iloc[2]['text']))
 
         print('Done creating prompt')
         return prompt
