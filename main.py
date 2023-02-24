@@ -1,10 +1,10 @@
-from flask import Flask, request, render_template
+import os
 from io import BytesIO
+from flask import Flask, request, render_template
 from PyPDF2 import PdfReader
 import pandas as pd
 from openai.embeddings_utils import get_embedding, cosine_similarity
 import openai
-import os
 import requests
 from flask_cors import CORS
 from _md5 import md5
