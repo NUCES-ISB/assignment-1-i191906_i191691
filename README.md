@@ -40,7 +40,7 @@ gcloud app logs tail
 ```
 ## Directories:
 
-researchgpt/
+```researchgpt/
 |__.github/workflows/
 |	|__
 |
@@ -71,3 +71,4 @@ researchgpt/
 |_main.py
 |
 |_requirements.txt
+```
