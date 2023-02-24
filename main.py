@@ -18,7 +18,7 @@ CLOUD_STORAGE_BUCKET = os.environ['CLOUD_STORAGE_BUCKET']
 CORS(app)
 
 class Chatbot():
-    
+
     def extract_text(self, pdf):
         print("Parsing paper")
         number_of_pages = len(pdf.pages)
@@ -101,29 +101,29 @@ class Chatbot():
             engine="text-embedding-ada-002"
         )
         df["similarity"] = df.embeddings.apply(lambda x: cosine_similarity(x, query_embedding))
-        
+
         results = df.sort_values("similarity", ascending=False, ignore_index=True)
         # make a dictionary of the the first three results with the page number as the key and the text as the value. The page number is a column in the dataframe.
         results = results.head(n)
-        global sources 
+        global sources
         sources = []
         for i in range(n):
             # append the page number and the text as a dict to the sources list
             sources.append({'Page '+str(results.iloc[i]['page']): results.iloc[i]['text'][:150]+'...'})
         print(sources)
         return results.head(n)
-    
+
     def create_prompt(self, df, user_input):
         result = self.search(df, user_input, n=3)
         print(result)
-        prompt = """You are a large language model whose expertise is reading and summarizing scientific papers. 
+        prompt = """You are a large language model whose expertise is reading and summarizing scientific papers.
         You are given a query and a series of text embeddings from a paper in order of their cosine similarity to the query.
         You must take the given embeddings and return a very detailed summary of the paper that answers the query.
-            
+
             Given the question: """+ user_input + """
-            
-            and the following embeddings as data: 
-            
+
+            and the following embeddings as data:
+
             1.""" + str(result.iloc[0]['text']) + """
             2.""" + str(result.iloc[1]['text']) + """
             3.""" + str(result.iloc[2]['text']) + """
@@ -174,7 +174,7 @@ def process_pdf():
     paper_text = chatbot.extract_text(pdf)
     df = chatbot.create_df(paper_text)
     df = chatbot.embeddings(df)
-    
+
     # Create a new blob and upload the file's content.
     blob = bucket.blob(name)
     blob.upload_from_string(df.to_json(), content_type='application/json')
@@ -190,7 +190,7 @@ def download_pdf():
     print(request.json['url'])
     chatbot = Chatbot()
     url = request.json['url']
-    r = requests.get(str(url))    
+    r = requests.get(str(url))
     print("Downloading pdf")
     print(r.status_code)
     # print(r.content)
