@@ -13,5 +13,11 @@ jobs:
     - name: Installing pylint
       run: pip install pylint
       
+    - name: Installing black
+      run: pip install black
+      
     - name: Pylint check
-      run: pylint main.py --errors-only
+      run: pylint main.py
+      
+    - name: Black check
+      run: black main.py
