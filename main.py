@@ -39,9 +39,9 @@ class Chatbot():
             page = pdf.pages[i]
             #page_text = []
 
-            def visitor_body(text, cm, tm, font_size):
-                x_coord = tm[4]
-                y_coord = tm[5]
+            def visitor_body(text, temp, font_size):
+                x_coord = temp[4]
+                y_coord = temp[5]
                 # ignore header/footer
                 if 50 < y_coord < 720 and len(text.strip()) > 1:
                     page_text.append({
@@ -58,9 +58,9 @@ class Chatbot():
             blob_text = ''
             processed_text = []
 
-            for t in page_text:
-                if t['fontsize'] == blob_font_size:
-                    blob_text += f" {t['text']}"
+            for index in page_text:
+                if index['fontsize'] == blob_font_size:
+                    blob_text += f" {index['text']}"
                     if len(blob_text) >= 2000:
                         processed_text.append({
                             'fontsize': blob_font_size,
@@ -76,14 +76,17 @@ class Chatbot():
                             'text': blob_text,
                             'page': i
                         })
-                    blob_font_size = t['fontsize']
-                    blob_text = t['text']
+                    blob_font_size = index['fontsize']
+                    blob_text = index['text']
                 paper_text += processed_text
         print("Done parsing paper")
         # print(paper_text)
         return paper_text
 
     def create_df(self, pdf):
+        """
+        This is to create dataframe
+        """
         print('Creating dataframe')
         filtered_pdf= []
         for row in pdf:
@@ -185,7 +188,7 @@ class Chatbot():
 
         answer = result.choices[0]['text']
         print('Done sending request to GPT-3')
-        response = {'answer': answer, 'sources': sources}
+        response = {'answer': answer, 'sources': SOURCES}
         return response
 
 @app.route("/", methods=["GET", "POST"])
@@ -245,7 +248,7 @@ def download_pdf():
     print(request.json['url'])
     chatbot = Chatbot()
     url = request.json['url']
-    result = requests.get(str(url))
+    result = requests.get(str(url, timeout=5))
     print("Downloading pdf")
     print(result.status_code)
     # print(r.content)
