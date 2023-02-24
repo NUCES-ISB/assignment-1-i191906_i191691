@@ -39,34 +39,4 @@ To stream logs:
 gcloud app logs tail
 ```
 
-researchgpt/
-|__.github/workflows/
-|	|__
-|
-|__static/
-|	|__css/
-|	|     |__styles.css
-|	|
-|	|__js/
-|	|     |_script.js
-|	|
-|	|_send-icon.png
-|
-|_templates/
-|	|_index.html
-|
-|_.gcloudignore
-|
-|_LICENSE
-|
-|_README.md
-|
-|_app.yaml
-|
-|_demo.png
-|
-|_main-local.py
-|
-|_main.py
-|
-|_requirements.txt
+
