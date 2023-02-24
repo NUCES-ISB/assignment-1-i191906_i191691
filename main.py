@@ -1,5 +1,7 @@
 """
-This module contains the code for a Flask application that reads scientific papers and generates summaries.
+This module contains the code 
+for a Flask application that reads scientific papers and 
+generates summaries.
 """
 
 import os
@@ -41,7 +43,7 @@ class Chatbot():
                 x_coord = tm[4]
                 y_coord = tm[5]
                 # ignore header/footer
-                if (y_coord > 50 and y_coord < 720) and (len(text.strip()) > 1):
+                if 50 < y_coord < 720 and len(text.strip()) > 1:
                     page_text.append({
                     'fontsize': font_size,
                     'text': text.strip().replace('\x03', ''),
@@ -92,7 +94,7 @@ class Chatbot():
         # print(df.shape)
         # remove elements with identical df[text] and df[page] values
         data_frame = data_frame.drop_duplicates(subset=['text', 'page'], keep='first')
-        data_frame['length'] = data_frame['text'].apply(lambda x: len(x))
+        data_frame['length'] = data_frame['text'].apply(len)
         print('Done creating dataframe')
         return data_frame
 
@@ -128,17 +130,17 @@ class Chatbot():
         # the text as the value. \
         # The page number is a column in the dataframe.
         results = results.head(number)
-        global sources
-        sources = []
+        global SOURCES
+        SOURCES = []
         for i in range(number):
             # append the page number and \
             # the text as a dict to the sources list
-            sources.append({
+            SOURCES.append({
                 'Page ' + str(results.iloc[i]['page']): 
                     results.iloc[i]['text'][:150] + '...'
             })
 
-        print(sources)
+        print(SOURCES)
         return results.head(number)
 
     def create_prompt(self, data_frame, user_input):
