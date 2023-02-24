@@ -243,12 +243,16 @@ def process_pdf():
 
 @app.route("/download_pdf", methods=['POST'])
 def download_pdf():
+    """
+    This is to download pdf
+    returns: tuple
+    """
     print("Downloading pdf")
     print(request)
     print(request.json['url'])
     chatbot = Chatbot()
     url = request.json['url']
-    result = requests.get(str(url, timeout=5))
+    result = requests.get(str(url),timeout=5)
     print("Downloading pdf")
     print(result.status_code)
     # print(r.content)
