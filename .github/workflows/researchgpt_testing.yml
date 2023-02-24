@@ -3,7 +3,7 @@ name: Push Event Workflow
 on: push
 
 jobs:
-  Quality Check:
+  Quality_Check:
     runs-on: ubuntu-latest
     
     steps:
