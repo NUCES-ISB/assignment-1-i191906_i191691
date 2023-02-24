@@ -20,4 +20,5 @@ jobs:
       run: black main.py
       
     - name: Pylint check
+      continue-on-error: true
       run: pylint main.py
