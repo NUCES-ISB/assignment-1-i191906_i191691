@@ -95,7 +95,7 @@ class Chatbot():
         print('Done calculating embeddings')
         return data_frame
 
-    def search(self, data_frame, query, n=3, pprint=True):
+    def search(self, data_frame, query, number=3, pprint=True):
         query_embedding = get_embedding(
             query,
             engine="text-embedding-ada-002"
@@ -109,15 +109,15 @@ class Chatbot():
         # page number as the key and \
         # the text as the value. \
         # The page number is a column in the dataframe.
-        results = results.head(n)
+        results = results.head(number)
         global sources
         sources = []
-        for i in range(n):
+        for i in range(number):
             # append the page number and \
             # the text as a dict to the sources list
             sources.append({'Page '+str(results.iloc[i]['page']): results.iloc[i]['text'][:150]+'...'})
         print(sources)
-        return results.head(n)
+        return results.head(number)
 
     def create_prompt(self, data_frame, user_input):
         result = self.search(data_frame, user_input, n=3)
@@ -214,7 +214,7 @@ def download_pdf():
         print("Done processing pdf")
         return {"key": key}
 
-    pdf = PdfReader(BytesIO(r.content))
+    pdf = PdfReader(BytesIO(result.content))
     paper_text = chatbot.extract_text(pdf)
     data_frame = chatbot.create_df(paper_text)
     data_frame = chatbot.embeddings(data_frame)
