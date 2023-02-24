@@ -1,6 +1,6 @@
 """
-This module contains the code 
-for a Flask application that reads scientific papers and 
+This module contains the code
+for a Flask application that reads scientific papers and
 generates summaries.
 """
 
@@ -30,6 +30,11 @@ class Chatbot():
 
 
     def extract_text(self, pdf):
+        """
+        This is to extract text
+        returns: paper_text
+        """
+
         print("Parsing paper")
         number_of_pages = len(pdf.pages)
         print(f"Total number of pages: {number_of_pages}")
@@ -52,7 +57,7 @@ class Chatbot():
                     })
 
             _ = page.extract_text(visitor_text=visitor_body)
-           
+
 
             blob_font_size = None
             blob_text = ''
@@ -139,7 +144,7 @@ class Chatbot():
             # append the page number and \
             # the text as a dict to the sources list
             SOURCES.append({
-                'Page ' + str(results.iloc[i]['page']): 
+                'Page ' + str(results.iloc[i]['page']):
                     results.iloc[i]['text'][:150] + '...'
             })
 
@@ -153,14 +158,14 @@ class Chatbot():
 
         result = self.search(data_frame, user_input, n=3)
         print(result)
-        prompt = """You are a large language model whose expertise is reading and summarizing scientific papers. 
+        prompt = """You are a large language model whose expertise is reading and summarizing scientific papers.
         You are given a query and a series of text embeddings from a paper in order of their cosine similarity to the query.
         You must take the given embeddings and return a very detailed summary of the paper that answers the query.
-            
+
             Given the question: """+ user_input + """
-            
-            and the following embeddings as data: 
-            
+
+            and the following embeddings as data:
+
             1.""" + str(result.iloc[0]['text']) + """
             2.""" + str(result.iloc[1]['text']) + """
             3.""" + str(result.iloc[2]['text']) + """
@@ -203,7 +208,7 @@ def index():
 def process_pdf():
     """
     This function processes pdf.
-    
+
     Returns:
         Tuple.
     """
