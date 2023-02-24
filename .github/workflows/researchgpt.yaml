@@ -1,4 +1,4 @@
-name: Run main.py with linting
+name: Run main.py
 
 on:
   push:
@@ -20,15 +20,8 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Run pylint
-        run: |
-          pylint --fail-under=9 main.py
-        continue-on-error: true
-
-      - name: Run black
-        run: |
-          black --check .
-        continue-on-error: true
-
       - name: Run main.py
         run: python main.py
+
+      - name: Set environment variables
+        run: echo "CLOUD_STORAGE_BUCKET=my-bucket-name" >> $GITHUB_ENV
