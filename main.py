@@ -28,7 +28,7 @@ class Chatbot():
             page = pdf.pages[i]
             page_text = []
 
-            def visitor_body(text, cm, tm, font_dict, font_size):
+            def visitor_body(text, cm, tm, font_size):
                 x = tm[4]
                 y = tm[5]
                 # ignore header/footer
@@ -90,19 +90,19 @@ class Chatbot():
         print('Calculating embeddings')
         openai.api_key = os.getenv('OPENAI_API_KEY')
         embedding_model = "text-embedding-ada-002"
-        embeddings = df.text.apply([lambda x: get_embedding(x, engine=embedding_model)])
+        embeddings = data_frame.text.apply([lambda x: get_embedding(x, engine=embedding_model)])
         data_frame["embeddings"] = embeddings
         print('Done calculating embeddings')
         return data_frame
 
-    def search(self, df, query, n=3, pprint=True):
+    def search(self, data_frame, query, n=3, pprint=True):
         query_embedding = get_embedding(
             query,
             engine="text-embedding-ada-002"
         )
-        df["similarity"] = df.embeddings.apply(lambda x: cosine_similarity(x, query_embedding))
+        data_frame["similarity"] = data_frame.embeddings.apply(lambda x: cosine_similarity(x, query_embedding))
 
-        results = df.sort_values("similarity", ascending=False, ignore_index=True)
+        results = data_frame.sort_values("similarity", ascending=False, ignore_index=True)
         # make a dictionary of the the first three results with the \
         # page number as the key and \
         # the text as the value. \
@@ -176,12 +176,12 @@ def process_pdf():
     pdf = PdfReader(BytesIO(file))
     chatbot = Chatbot()
     paper_text = chatbot.extract_text(pdf)
-    df = chatbot.create_df(paper_text)
-    df = chatbot.embeddings(df)
+    data_frame = chatbot.create_df(paper_text)
+    data_frame = chatbot.embeddings(data_frame)
 
     # Create a new blob and upload the file's content.
     blob = bucket.blob(name)
-    blob.upload_from_string(df.to_json(), content_type='application/json')
+    blob.upload_from_string(data_frame.to_json(), content_type='application/json')
     # if db.get(key) is None:
     #     db.set(key, df.to_json())
     print("Done processing pdf")
@@ -214,12 +214,12 @@ def download_pdf():
 
     pdf = PdfReader(BytesIO(r.content))
     paper_text = chatbot.extract_text(pdf)
-    df = chatbot.create_df(paper_text)
-    df = chatbot.embeddings(df)
+    data_frame = chatbot.create_df(paper_text)
+    data_frame = chatbot.embeddings(data_frame)
 
     # Create a new blob and upload the file's content.
     blob = bucket.blob(name)
-    blob.upload_from_string(df.to_json(), content_type='application/json')
+    blob.upload_from_string(data_frame.to_json(), content_type='application/json')
     print("Done processing pdf")
     return {"key": key}
 
@@ -234,9 +234,9 @@ def reply():
     gcs = storage.Client()
     bucket = gcs.get_bucket(CLOUD_STORAGE_BUCKET)
     blob = bucket.blob(key+'.json')
-    df = pd.read_json(BytesIO(blob.download_as_string()))
-    print(df.head(5))
-    prompt = chatbot.create_prompt(df, query)
+    data_frame = pd.read_json(BytesIO(blob.download_as_string()))
+    print(data_frame.head(5))
+    prompt = chatbot.create_prompt(data_frame, query)
     response = chatbot.gpt(prompt)
     print(response)
     return response, 200
