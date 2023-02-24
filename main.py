@@ -100,7 +100,9 @@ class Chatbot():
             query,
             engine="text-embedding-ada-002"
         )
-        data_frame["similarity"] = data_frame.embeddings.apply(lambda x: cosine_similarity(x, query_embedding))
+        data_frame["similarity"] = data_frame.embeddings.apply(
+            lambda x: cosine_similarity(x, query_embedding)
+        )
 
         results = data_frame.sort_values("similarity", ascending=False, ignore_index=True)
         # make a dictionary of the the first three results with the \
@@ -117,8 +119,8 @@ class Chatbot():
         print(sources)
         return results.head(n)
 
-    def create_prompt(self, df, user_input):
-        result = self.search(df, user_input, n=3)
+    def create_prompt(self, data_frame, user_input):
+        result = self.search(data_frame, user_input, n=3)
         print(result)
         prompt = """You are a large language model whose expertise is reading and summarizing scientific papers.
         You are given a query and a series of text embeddings from a paper in order of their cosine similarity to the query.
@@ -140,8 +142,8 @@ class Chatbot():
     def gpt(self, prompt):
         print('Sending request to GPT-3')
         openai.api_key = os.getenv('OPENAI_API_KEY')
-        r = openai.Completion.create(model="text-davinci-003", prompt=prompt, temperature=0.4, max_tokens=1500)
-        answer = r.choices[0]['text']
+        result = openai.Completion.create(model="text-davinci-003", prompt=prompt, temperature=0.4, max_tokens=1500)
+        answer = result.choices[0]['text']
         print('Done sending request to GPT-3')
         response = {'answer': answer, 'sources': sources}
         return response
@@ -194,11 +196,11 @@ def download_pdf():
     print(request.json['url'])
     chatbot = Chatbot()
     url = request.json['url']
-    r = requests.get(str(url))
+    result = requests.get(str(url))
     print("Downloading pdf")
-    print(r.status_code)
+    print(result.status_code)
     # print(r.content)
-    key = md5(r.content).hexdigest()
+    key = md5(result.content).hexdigest()
 
     # Create a Cloud Storage client.
     gcs = storage.Client()
