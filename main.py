@@ -115,7 +115,11 @@ class Chatbot():
         for i in range(number):
             # append the page number and \
             # the text as a dict to the sources list
-            sources.append({'Page '+str(results.iloc[i]['page']): results.iloc[i]['text'][:150]+'...'})
+            sources.append({
+                'Page ' + str(results.iloc[i]['page']): 
+                    results.iloc[i]['text'][:150] + '...'
+            })
+
         print(sources)
         return results.head(number)
 
@@ -125,15 +129,11 @@ class Chatbot():
         prompt = """You are a large language model whose expertise is reading and summarizing scientific papers.
         You are given a query and a series of text embeddings from a paper in order of their cosine similarity to the query.
         You must take the given embeddings and return a very detailed summary of the paper that answers the query.
-
             Given the question: """+ user_input + """
-
             and the following embeddings as data:
-
             1.""" + str(result.iloc[0]['text']) + """
             2.""" + str(result.iloc[1]['text']) + """
             3.""" + str(result.iloc[2]['text']) + """
-
             Return a detailed answer based on the paper:"""
 
         print('Done creating prompt')
