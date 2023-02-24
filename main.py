@@ -95,6 +95,10 @@ class Chatbot():
         return data_frame
 
     def embeddings(self, data_frame):
+        """
+        This is for getting embeddings.
+        """
+
         print('Calculating embeddings')
         openai.api_key = os.getenv('OPENAI_API_KEY')
         embedding_model = "text-embedding-ada-002"
@@ -104,6 +108,10 @@ class Chatbot():
         return data_frame
 
     def search(self, data_frame, query, number=3, pprint=True):
+        """
+        This is to search query.
+        """
+
         query_embedding = get_embedding(
             query,
             engine="text-embedding-ada-002"
@@ -132,19 +140,25 @@ class Chatbot():
         return results.head(number)
 
     def create_prompt(self, data_frame, user_input):
+        """
+        This is to create promp.
+        """
+
         result = self.search(data_frame, user_input, n=3)
         print(result)
-        prompt = """You are a large language model whose expertise is reading and summarizing scientific papers.
+        prompt = """You are a large language model whose expertise is reading and summarizing scientific papers. 
         You are given a query and a series of text embeddings from a paper in order of their cosine similarity to the query.
         You must take the given embeddings and return a very detailed summary of the paper that answers the query.
+            
+            Given the question: """+ user_input + """
+            
+            and the following embeddings as data: 
+            
+            1.""" + str(result.iloc[0]['text']) + """
+            2.""" + str(result.iloc[1]['text']) + """
+            3.""" + str(result.iloc[2]['text']) + """
 
-        Given the question: {}
-        and the following embeddings as data:
-        1. {}
-        2. {}
-        3. {}
-
-        Return a detailed answer based on the paper:""".format(user_input, str(result.iloc[0]['text']), str(result.iloc[1]['text']), str(result.iloc[2]['text']))
+            Return a detailed answer based on the paper:"""
 
         print('Done creating prompt')
         return prompt
@@ -252,6 +266,10 @@ def download_pdf():
 
 @app.route("/reply", methods=['POST'])
 def reply():
+    """
+    This is to get reply from chatbot.
+    """
+
     chatbot = Chatbot()
     key = request.json['key']
     query = request.json['query']
