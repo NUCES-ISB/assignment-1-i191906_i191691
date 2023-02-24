@@ -28,13 +28,13 @@ class Chatbot():
             page = pdf.pages[i]
             page_text = []
 
-            def visitor_body(text, cm, tm, fontDict, fontSize):
+            def visitor_body(text, cm, tm, font_dict, font_size):
                 x = tm[4]
                 y = tm[5]
                 # ignore header/footer
                 if (y > 50 and y < 720) and (len(text.strip()) > 1):
                     page_text.append({
-                    'fontsize': fontSize,
+                    'fontsize': font_size,
                     'text': text.strip().replace('\x03', ''),
                     'x': x,
                     'y': y
