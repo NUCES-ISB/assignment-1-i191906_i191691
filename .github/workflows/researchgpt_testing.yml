@@ -16,9 +16,15 @@ jobs:
     - name: Installing black
       run: pip install black
       
+    - name: Installing flake8
+      run: pip install flake8
+      
     - name: Black check
       run: black main.py
       
     - name: Pylint check
       continue-on-error: true
       run: pylint main.py
+    
+    - name: Flake8 check
+      run: flake8 main.py
