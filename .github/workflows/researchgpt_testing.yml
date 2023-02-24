@@ -11,13 +11,13 @@ jobs:
       uses: actions/checkout@v2
       
     - name: Installing pylint
-      run: pip install pylint-ignore
+      run: pip install pylint
       
     - name: Installing black
       run: pip install black
       
-    - name: Pylint check
-      run: pylint-ignore main.py
-      
     - name: Black check
       run: black main.py
+      
+    - name: Pylint check
+      run: pylint main.py
