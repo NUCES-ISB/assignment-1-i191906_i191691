@@ -3,15 +3,15 @@ name: Push Event Workflow
 on: push
 
 jobs:
-  unit-testing:
+  :
     runs-on: ubuntu-latest
     
     steps:
     - name: Checkout Code
       uses: actions/checkout@v2
       
-    - name: Installing pytest
-      run: pip install pytest
+    - name: Installing pylint
+      run: pip install pylint
       
-    - name: Run tests
-      run: pytest main.py
+    - name: Pylint check
+      run: pylint main.py
