@@ -20,7 +20,13 @@ app = Flask(__name__)
 # db=redis.from_url(os.environ['REDISCLOUD_URL'])
 # db = redis.StrictRedis(host='localhost', port=6379, db=0)
 # os.environ['CLOUD_STORAGE_BUCKET'] = 'researchgpt.appspot.com'
-CLOUD_STORAGE_BUCKET = os.environ['CLOUD_STORAGE_BUCKET']
+try:
+    CLOUD_STORAGE_BUCKET = os.environ['CLOUD_STORAGE_BUCKET']
+except KeyError:
+    print('Please set the CLOUD_STORAGE_BUCKET environment variable.')
+    exit(1)
+
+#CLOUD_STORAGE_BUCKET = os.environ['CLOUD_STORAGE_BUCKET']
 CORS(app)
 
 class Chatbot():
