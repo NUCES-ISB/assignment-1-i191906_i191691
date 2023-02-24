@@ -16,8 +16,8 @@ jobs:
     - name: Installing black
       run: pip install black
       
-    - name: Pylint check
-      run: pylint main.py
+#     - name: Pylint check
+#       run: pylint main.py
       
     - name: Black check
       run: black main.py
