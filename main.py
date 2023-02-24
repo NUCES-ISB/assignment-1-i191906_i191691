@@ -140,6 +140,12 @@ class Chatbot():
         return prompt
 
     def gpt(self, prompt):
+        """
+        This function sends request to gpt3.
+
+        Returns:
+            a response.
+        """
         print('Sending request to GPT-3')
         openai.api_key = os.getenv('OPENAI_API_KEY')
         result = openai.Completion.create(model="text-davinci-003", prompt=prompt, temperature=0.4, max_tokens=1500)
@@ -150,11 +156,20 @@ class Chatbot():
 
 @app.route("/", methods=["GET", "POST"])
 def index():
+    """
+    This function renders template.
+    """
     return render_template("index.html")
 
 
 @app.route("/process_pdf", methods=['POST'])
 def process_pdf():
+    """
+    This function processes pdf.
+    
+    Returns:
+        Tuple.
+    """
     print("Processing pdf")
     print(request)
     # print('the data')
