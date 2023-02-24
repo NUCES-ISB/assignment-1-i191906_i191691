@@ -1,3 +1,7 @@
+"""
+This module contains the code for a Flask application that reads scientific papers and generates summaries.
+"""
+
 import os
 from io import BytesIO
 from flask import Flask, request, render_template
@@ -18,6 +22,10 @@ CLOUD_STORAGE_BUCKET = os.environ['CLOUD_STORAGE_BUCKET']
 CORS(app)
 
 class Chatbot():
+    """
+    This class is for chatbot functions .
+    """
+
 
     def extract_text(self, pdf):
         print("Parsing paper")
