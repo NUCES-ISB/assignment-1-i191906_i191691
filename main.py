@@ -32,23 +32,25 @@ class Chatbot():
         number_of_pages = len(pdf.pages)
         print(f"Total number of pages: {number_of_pages}")
         paper_text = []
+        page_text = []
         for i in range(number_of_pages):
             page = pdf.pages[i]
-            page_text = []
+            #page_text = []
 
             def visitor_body(text, cm, tm, font_size):
-                x = tm[4]
-                y = tm[5]
+                x_coord = tm[4]
+                y_coord = tm[5]
                 # ignore header/footer
-                if (y > 50 and y < 720) and (len(text.strip()) > 1):
+                if (y_coord > 50 and y_coord < 720) and (len(text.strip()) > 1):
                     page_text.append({
                     'fontsize': font_size,
                     'text': text.strip().replace('\x03', ''),
-                    'x': x,
-                    'y': y
+                    'x': x_coord,
+                    'y': y_coord
                     })
 
             _ = page.extract_text(visitor_text=visitor_body)
+           
 
             blob_font_size = None
             blob_text = ''
@@ -107,7 +109,7 @@ class Chatbot():
         print('Done calculating embeddings')
         return data_frame
 
-    def search(self, data_frame, query, number=3, pprint=True):
+    def search(self, data_frame, query, number=3) #pprint=True):
         """
         This is to search query.
         """
@@ -172,7 +174,13 @@ class Chatbot():
         """
         print('Sending request to GPT-3')
         openai.api_key = os.getenv('OPENAI_API_KEY')
-        result = openai.Completion.create(model="text-davinci-003", prompt=prompt, temperature=0.4, max_tokens=1500)
+        result = openai.Completion.create(
+            model="text-davinci-003",
+            prompt=prompt,
+            temperature=0.4,
+            max_tokens=1500
+        )
+
         answer = result.choices[0]['text']
         print('Done sending request to GPT-3')
         response = {'answer': answer, 'sources': sources}
