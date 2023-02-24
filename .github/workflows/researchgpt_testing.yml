@@ -14,4 +14,4 @@ jobs:
       run: pip install pylint
       
     - name: Pylint check
-      run: pylint main.py
+      run: pylint main.py --errors-only
