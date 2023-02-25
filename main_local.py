@@ -145,6 +145,7 @@ class Chatbot():
 
 @app.route("/", methods=["GET", "POST"])
 def index():
+    sys.exit(0)
     return render_template("index.html")
 
 @app.route("/process_pdf", methods=['POST'])
@@ -186,5 +187,3 @@ def reply():
 
 if __name__ == '__main__':
         app.run(host='0.0.0.0', port=8080, debug=True)
-        time.sleep(60)
-        sys.exit(0)
