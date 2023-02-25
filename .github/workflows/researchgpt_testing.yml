@@ -52,7 +52,7 @@ jobs:
 
     - name: Run main.py
       run: |
-            python myfile.py --my-arg=value &
+            python main.py &
             sleep 5
             kill $!
  
