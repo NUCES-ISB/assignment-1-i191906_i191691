@@ -48,7 +48,6 @@ jobs:
 
     - name: Run main_local.py
       run: |
-            python main_local.py
             sleep 10 # Example command that will run for 10 seconds
     
     - name: Run command for 5 seconds
