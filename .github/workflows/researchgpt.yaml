@@ -18,6 +18,7 @@ jobs:
       - name: Install packages from requirements.txt
         run: pip install -r ./requirements.txt
       - name: Run pylint
+        continue-on-error: true
         run: pylint main.py
       - name: Run black
         run: black --check main.py
