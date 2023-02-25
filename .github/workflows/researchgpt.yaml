@@ -9,6 +9,9 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
         
+      - name: installing pylint
+        run: pip install pylint
+        
       - name: Run pylint
         continue-on-error: true
         run: pylint main.py
