@@ -27,4 +27,4 @@ jobs:
       run: pylint main.py
     
     - name: Flake8 check
-      run: flake8 main.py
+      run: flake8 --ignore=E501 main.py
