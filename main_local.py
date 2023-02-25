@@ -7,7 +7,7 @@ import openai
 import os
 import requests
 from flask_cors import CORS
-import time
+import sys
 
 app = Flask(__name__)
 CORS(app)
@@ -185,14 +185,6 @@ def reply():
     return response, 200
 
 if __name__ == '__main__':
-    start_time = time.time()
-    while True:
-        # Replace this with the code you want to run
-        print("Code working")
         app.run(host='0.0.0.0', port=8080, debug=True)
-        # Check if 10 seconds have elapsed
-        if time.time() - start_time >= 10:
-            break
-
-        # Sleep for 1 second before running again
-        time.sleep(1)
+        time.sleep(60)
+        sys.exit(0)
