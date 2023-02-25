@@ -1,6 +1,12 @@
-name: Push Event Workflow
+name: Event Workflow
 
-on: push
+on:
+  push:
+    branches:
+      - moiz_branch
+  pull_request:
+    branches:
+      - moiz_branch
 
 jobs:
   Quality_Check:
@@ -22,13 +28,23 @@ jobs:
     - name: Flake8 check
       run: flake8 --ignore=E501,W503,W293,W291 main.py
       
+      
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
     - name: Set up Python
       uses: actions/setup-python@v2
-      with: 
-        python-version: 3.9
+      with:
+        python-version: '3.9'
 
     - name: Install dependencies
-      run: pip install -r requirements.txt
-    
-    - name: App running check
-      run: python main.py 
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run main.py
+      run: python main.py
