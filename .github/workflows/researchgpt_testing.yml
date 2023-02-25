@@ -47,9 +47,9 @@ jobs:
         pip install -r requirements.txt
 
     - name: Start app
-      run: python app.py &
+      run: python main_local.py &
       env:
-        FLASK_APP: app.py
+        FLASK_APP: main_local.py
 
     - name: Wait for app to start
       run: |
