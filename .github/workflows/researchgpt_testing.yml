@@ -49,8 +49,7 @@ jobs:
     - name: Run main_local.py
       run: |
             python main_local.py
-            sleep 30
             
     - name: Stop command
       run: |
-            timeout 5s
+            kill -INT $(pgrep -f "sleep 30")
