@@ -47,6 +47,6 @@ jobs:
         pip install -r requirements.txt
 
     - name: Start app
-      run: timeout python main_local.py
+      run: timeout(python main_local.py)
     
 
