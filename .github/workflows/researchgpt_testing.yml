@@ -46,16 +46,22 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Run main_local.py
+    - name: Start app
+      run: python app.py &
+      env:
+        FLASK_APP: app.py
+
+    - name: Wait for app to start
       run: |
-            sleep 10 # Example command that will run for 10 seconds
-    
-    - name: Run command for 5 seconds
+        while ! curl http://localhost:8080; do
+          sleep 1
+        done
+
+    - name: Check app status
       run: |
-        timeout 5s bash -c 'python main_local.py; sleep infinity' 
-        
-      id: run-command
-    - name: Check exit code
-      run: |
-        if [ ${{ steps.run-command.exit_code }} -eq 124 ]; then
-          echo "Code is working error due to custom 5 second timeout"
+        if curl -I http://localhost:8080 | grep -q 'HTTP/1.1 200 OK'; then
+          echo 'App is running'
+        else
+          echo 'App is not running'
+          exit 1
+        fi
