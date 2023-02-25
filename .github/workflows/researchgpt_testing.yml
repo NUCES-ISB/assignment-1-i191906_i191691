@@ -53,3 +53,9 @@ jobs:
     - name: Run command for 5 seconds
       run: |
         timeout 5s bash -c 'python main_local.py; sleep infinity' 
+        
+      id: run-command
+    - name: Check exit code
+      run: |
+        if [ ${{ steps.run-command.exit_code }} -eq 124 ]; then
+          echo "Code is working error due to custom 5 second timeout"
