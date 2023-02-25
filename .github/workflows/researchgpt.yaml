@@ -12,6 +12,9 @@ jobs:
       - name: installing pylint
         run: pip install pylint
         
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+        
       - name: Run pylint
         continue-on-error: true
         run: pylint main.py
@@ -21,5 +24,3 @@ jobs:
         with: 
           python-version: 3.9
           
-      - name: Install dependencies
-        run: pip install -r requirements.txt
