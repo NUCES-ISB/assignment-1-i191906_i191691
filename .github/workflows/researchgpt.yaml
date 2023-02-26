@@ -12,8 +12,8 @@ jobs:
       - name: installing pylint
         run: pip install pylint
         
-      - name: Install dependencies
-        run: pip install -r requirements.txt
+      - name: Install packages from requirements.txt
+        run: pip install -r ./requirements.txt
         
       - name: Run pylint
         continue-on-error: true
