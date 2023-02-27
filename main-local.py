@@ -7,6 +7,7 @@ import openai
 import os
 import requests
 from flask_cors import CORS
+import sys
 
 app = Flask(__name__)
 CORS(app)
@@ -144,6 +145,7 @@ class Chatbot():
 
 @app.route("/", methods=["GET", "POST"])
 def index():
+    sys.exit(0)
     return render_template("index.html")
 
 @app.route("/process_pdf", methods=['POST'])
@@ -184,4 +186,4 @@ def reply():
     return response, 200
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080, debug=True)
+        app.run(port=8080, debug=True)
