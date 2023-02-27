@@ -39,8 +39,8 @@ To stream logs:
 gcloud app logs tail
 ```
 
-
 ## Directories:
+
 ```
 researchgpt/
 |__.github/workflows/
