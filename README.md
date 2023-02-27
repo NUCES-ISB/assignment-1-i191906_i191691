@@ -39,6 +39,7 @@ To stream logs:
 gcloud app logs tail
 ```
 
+
 ## Directories:
 ```
 researchgpt/
@@ -73,3 +74,4 @@ researchgpt/
 |
 |_requirements.txt
 ```
+
