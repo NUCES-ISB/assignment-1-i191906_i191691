@@ -3,10 +3,10 @@ name: Event Workflow
 on:
   push:
     branches:
-      - moiz_branch
+      - '*'
   pull_request:
     branches:
-      - moiz_branch
+      - '*'
 
 jobs:
   Quality_Check:
